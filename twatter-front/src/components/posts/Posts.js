@@ -8,12 +8,12 @@ const Posts = ()=>{
 
     useEffect(() => {
         getAllPosts().then(posts=>{setPosts(posts)}).catch(err=>console.error(err));
-    })
+    }, [])
 
 
     return <div className='AllPosts'>
-        {posts && posts.array.forEach(element => {
-            return <div>e.body</div>
+        {posts && posts.map(element => {
+            return <div>{element.body}</div>
         })}
     </div>
 }
