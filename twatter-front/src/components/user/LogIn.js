@@ -1,6 +1,18 @@
+import { validateUser } from "../../library/apiHandler";
+
 const LogIn = ()=>{
     const handleSubmit = (event)=>{
-
+        event.preventDefault();
+        const formData = new FormData(event.target);
+        const user = {
+            email: formData.get("email"),
+            password: formData.get("password")
+        }
+        const response = validateUser(user).then(e=>{
+            if(e.isEmailValid&&e.isPasswordValid){
+                console.log("Login success");
+            }
+        }).catch(error=>console.error(error));
     }
 
 

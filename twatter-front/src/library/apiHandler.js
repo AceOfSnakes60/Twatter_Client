@@ -22,8 +22,16 @@ async function postTwatt(twatt){
     return posts;
 }
 
-async function getUserByMail(email){
-
+async function validateUser(user){
+    const response = await fetch(`${SERVER_PATH}/user/validate`,{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(user)
+    })
+    const reply = await response.json();
+    return reply;
 }
 
-export {getAllPosts, postTwatt};
+export {getAllPosts, postTwatt, validateUser};
