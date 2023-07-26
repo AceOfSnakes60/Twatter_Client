@@ -1,6 +1,8 @@
 import { getAllPosts } from '../../library/apiHandler'
 
 import {useState, useEffect} from 'react'
+import SinglePost from './SinglePost';
+import SubmitPost from './SubmitPost';
 
 
 const Posts = ()=>{
@@ -12,8 +14,9 @@ const Posts = ()=>{
 
 
     return <div className='AllPosts'>
+        <SubmitPost/>
         {posts && posts.map(element => {
-            return <div>{element.body}</div>
+            return <SinglePost twatt={element}/>
         })}
     </div>
 }
