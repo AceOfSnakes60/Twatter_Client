@@ -1,0 +1,15 @@
+.SinglePost{
+
+}
+.postHeader{
+    display: flex;
+    flex-direction: row;
+    font-size: small;
+    gap: 5px;
+    border: 5px;
+    
+}
+.PostBody{
+    background-color: rgb(231, 231, 231);
+    border-radius: 10px;
+}

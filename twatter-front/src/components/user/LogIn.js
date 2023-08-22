@@ -8,9 +8,11 @@ const LogIn = ()=>{
             email: formData.get("email"),
             password: formData.get("password")
         }
-        const response = validateUser(user).then(e=>{
+        validateUser(user).then(e=>{
             if(e.isEmailValid&&e.isPasswordValid){
                 console.log("Login success");
+                sessionStorage.setItem('isLoggedin', true);
+                window.location.reload();
             }
         }).catch(error=>console.error(error));
     }

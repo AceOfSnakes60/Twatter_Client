@@ -1,14 +1,16 @@
 import { getAllPosts } from '../../library/apiHandler'
-
 import {useState, useEffect} from 'react'
+
+
 import SinglePost from './SinglePost';
 import SubmitPost from './SubmitPost';
 import LogIn from '../user/LogIn'
 
+import "./Posts.css"
+
 
 const Posts = ()=>{
     const [posts, setPosts] = useState();
-    const [loggedIn, setLoggedIn] = useState(false);
 
     useEffect(() => {
         getAllPosts().then(posts=>{setPosts(posts)}).catch(err=>console.error(err));
@@ -16,8 +18,8 @@ const Posts = ()=>{
 
 
     return( 
-    <div className='AllPosts'>
-        {loggedIn ? <SubmitPost/> :
+    <div className='Middle'>
+        {sessionStorage.getItem('isLoggedin') ? <SubmitPost/> :
         <LogIn/>}
 
         {posts && posts.map(element => {

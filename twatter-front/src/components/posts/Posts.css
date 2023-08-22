@@ -1,0 +1,9 @@
+.middle{
+    display: flex;
+    flex-direction: column;
+    width: 30vw;
+    align-content:center;
+    flex-basis: 50%;
+    border-width: 30px;
+
+}

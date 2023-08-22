@@ -34,4 +34,22 @@ async function validateUser(user){
     return reply;
 }
 
-export {getAllPosts, postTwatt, validateUser};
+async function registerUser(user){
+    const response = await fetch(`${SERVER_PATH}/user`,{
+        method: `POST`,
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.springify(user)
+    })
+    const reply = await response.json();
+    return reply;
+}
+
+async function getUserById(id){
+    const response = await fetch(`${SERVER_PATH}/user/${id}`);
+    const user = await response.json();
+    return user;
+}
+
+export {getAllPosts, postTwatt, validateUser, registerUser, getUserById};
