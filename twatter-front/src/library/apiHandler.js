@@ -52,4 +52,11 @@ async function getUserById(id){
     return user;
 }
 
-export {getAllPosts, postTwatt, validateUser, registerUser, getUserById};
+async function getReplies(id){
+    const response = await fetch(`${SERVER_PATH}/twatts/replies/${id}`);
+    const posts = await response.json();
+    console.log(posts);
+    return posts;
+}
+
+export {getAllPosts, postTwatt, validateUser, registerUser, getUserById, getReplies};

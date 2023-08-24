@@ -1,15 +1,15 @@
 import { postTwatt } from "../../library/apiHandler";
 
-const SubmitPost = ()=>{
+const SubmitPost = (props)=>{
 
     const handleSubmit = (event) =>{
         event.preventDefault();
         const formData = new FormData(event.target);
 
         const data = {
-            id: 0,
             userId : 0,
             text : formData.get("body"),
+            parent: props.parent,
             date : new Date()
         }
         postTwatt(data).catch(err=>console.error(err));

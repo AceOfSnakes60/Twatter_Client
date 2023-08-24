@@ -1,6 +1,6 @@
 import { registerUser } from "../../library/apiHandler";
 
-const Register = ()=>{
+const Register = (props)=>{
     const submitHandle = (event)=>{
         const formData = new FormData(event);
         event.preventdefault();
@@ -9,12 +9,8 @@ const Register = ()=>{
             email: formData.get("email"),
             password: formData.get("password")
         }).then(e=>{
-            if(e == true){
-
-            }
-            else{
-                
-            }
+            props.setIsRegister(false);
+            props.setIsPosts(true);
         })
         
 
@@ -27,10 +23,10 @@ const Register = ()=>{
             <label>Email <input name="email" type="text"></input></label>
             <label>Password<input name="password" type="text"></input></label>
 
-            <button type="submit">Submit</button>
+            <button type="submit" onSubmit={e=>submitHandle(e)}>Submit</button>
         </form>
 
     </div>)
 }
 
-export default {Register}
+export default Register

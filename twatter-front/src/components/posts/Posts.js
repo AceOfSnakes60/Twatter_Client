@@ -5,12 +5,17 @@ import {useState, useEffect} from 'react'
 import SinglePost from './SinglePost';
 import SubmitPost from './SubmitPost';
 import LogIn from '../user/LogIn'
+import Replies from '../posts/Replies';
 
 import "./Posts.css"
 
 
-const Posts = ()=>{
+const Posts = (props)=>{
     const [posts, setPosts] = useState();
+    const handleRegister = ()=>{
+        props.setIsRegister(true);
+        props.setIsPosts(false);
+    }
 
     useEffect(() => {
         getAllPosts().then(posts=>{setPosts(posts)}).catch(err=>console.error(err));
@@ -19,11 +24,12 @@ const Posts = ()=>{
 
     return( 
     <div className='Middle'>
-        {sessionStorage.getItem('isLoggedin') ? <SubmitPost/> :
-        <LogIn/>}
+        {sessionStorage.getItem('isLoggedin') ? <SubmitPost parent={null}/> : <div>
+        <LogIn/>
+        <button onClick={handleRegister}>Register</button></div>}
 
         {posts && posts.map(element => {
-            return <SinglePost twatt={element}/>
+            return(<div><SinglePost twatt={element}/><Replies parentId={element.id}/></div>)
         })}
     </div>)
 }
