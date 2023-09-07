@@ -1,29 +1,35 @@
-import { getUserById } from '../../library/apiHandler'
-import {useState, useEffect} from 'react'
+import { getReplies, getUserById, getPostById } from '../../library/apiHandler'
+import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom';
 import "./SinglePost.css";
+import Twatt from '../Twatt';
+import CenterBar from '../CenterBar';
 
 
-const SinglePost = (props)=>{
+const SinglePost = (props) => {
+    const { id } = useParams();
+    const [parentTwatt, setParentTwatt] = useState();
+    const [replies, setReplies] = useState();
 
-    const [user, setUser] = useState();
-    
     useEffect(() => {
-        getUserById(props.twatt.userId).then(user=>{setUser(user)}).catch(err=>console.error(err));
+        getPostById(id).then(twatt => { setParentTwatt(twatt); console.log(twatt); }).catch(err => console.error(err));
+        getReplies(id).then(twatts => { setReplies(twatts) }).catch(err => console.error(err));
+
     }, [])
 
-    return(
-    <div className="SinglePost">
-        <div className="postHeader">
-            {user&&<h3>{user.username}</h3>}
-            <h3>{props.twatt.date}</h3>
-        </div>
-        <div className='postBody'>
-            <p>
-                {props.twatt.text}
-            </p>
+    return (
+        <div className="SinglePost">
+            <div className="col-md-6 gedf-main">
+                {parentTwatt && <Twatt date={parentTwatt.date} text={parentTwatt.text} />}
+                <CenterBar parentId={id} />
+                <div className='Replies'>
+                    {replies && replies.map(element => {
+                        return (<div><Twatt id={element.id} date={element.date} text={element.text} /></div>)
+                    })}
+                </div>
             </div>
 
-    </div>
+        </div>
     )
 }
 

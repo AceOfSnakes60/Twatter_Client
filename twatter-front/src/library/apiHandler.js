@@ -8,7 +8,7 @@ async function getAllPosts() {
 }
 
 async function postTwatt(twatt){
-    console.log(twatt.body);
+    console.log(twatt);
 
     const response = await fetch(`${SERVER_PATH}/twatts`,{
         method: 'POST',
@@ -17,7 +17,7 @@ async function postTwatt(twatt){
         },
         body: JSON.stringify(twatt)
     })
-    const posts = await response.json();
+    const posts = await response;
     console.log(posts);
     return posts;
 }
@@ -58,5 +58,11 @@ async function getReplies(id){
     console.log(posts);
     return posts;
 }
+async function getPostById(id){
+    const response = await fetch(`${SERVER_PATH}/twatts/${id}`);
+    const posts = await response.json();
+    console.log(posts);
+    return posts;
+}
 
-export {getAllPosts, postTwatt, validateUser, registerUser, getUserById, getReplies};
+export {getAllPosts, postTwatt, validateUser, registerUser, getUserById, getReplies, getPostById};

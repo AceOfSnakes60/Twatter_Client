@@ -1,6 +1,7 @@
 import { validateUser } from "../../library/apiHandler";
+import { Link } from "react-router-dom";
 
-const LogIn = ()=>{
+const LogIn = (props)=>{
 
 
     const handleSubmit = (event)=>{
@@ -27,6 +28,10 @@ const LogIn = ()=>{
                 <label>Password:<input type="text" name="password"/></label>
                 <button type="submit" name="login">submit</button>
             </form>
+            <Link to="/register">
+            <button type="button" >Register</button>
+            </Link>
+            
         </div>
     )
 }
