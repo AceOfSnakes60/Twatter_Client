@@ -1,10 +1,50 @@
+import axiosInstance from '../axiosConfig'
+import localStorageService from './localStorageService'
 const SERVER_PATH = 'http://localHost:8080'
 
+
+//TODO
+// Replace with Axiom
+// Create env file
+
+async function authenticate(username, email, password){
+    try{
+        const response = await axiosInstance.post(`${SERVER_PATH}/api/v1/auth/authenticate`,
+        {
+            "username": username,
+            "email": email,
+            "password": password
+        })
+        if(response.data){
+            localStorageService.setAccessToken(response.body.token);
+        }
+    }catch(error){
+        console.error(error)
+    }
+
+}
+
+async function register(userDetails){
+    try{
+        const response = await axiosInstance.post(`${SERVER_PATH}/api/v1/auth/register`, userDetails)
+        if(response.data){
+            localStorageService.setAccessToken(response.data);
+        }
+        return response;
+    } catch(error){
+        console.error(error);
+    }
+}
+
 async function getAllPosts() {
-    const response = await fetch(`${SERVER_PATH}/twatts`);
-    const posts = await response.json();
-    console.log(posts);
-    return posts;
+    try{
+        const response = await axiosInstance.get(`${SERVER_PATH}/twatts`)
+        return response.data;
+    }
+    catch(error){
+            console.error(error);
+    }
+    
 }
 
 async function postTwatt(twatt){
@@ -65,4 +105,4 @@ async function getPostById(id){
     return posts;
 }
 
-export {getAllPosts, postTwatt, validateUser, registerUser, getUserById, getReplies, getPostById};
+export {authenticate, register, getAllPosts, postTwatt, validateUser, registerUser, getUserById, getReplies, getPostById};

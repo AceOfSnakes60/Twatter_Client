@@ -2,8 +2,7 @@
 import React from 'react';
 
 
-function Twatt(props) {
-  const {id, user, date, text, parentId} = props;
+function Twatt({id, user, date, text, parentId}) {
   
 
   return (

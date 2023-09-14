@@ -1,6 +1,6 @@
 
 import { useState } from 'react';
-import {BrowserRouter, Switch, Routes, Route} from "react-router-dom";
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css'; // Import Bootstrap CSS
 import 'bootstrap/dist/js/bootstrap.min.js'; // Import Bootstrap JavaScript
 import 'jquery/dist/jquery.min.js'; // Import jQuery

@@ -2,14 +2,13 @@ import React, { useEffect, useState } from 'react';
 
 
 import UserBar from './UserBar';
-import CenterBar from './CenterBar';
+import SendPost from './SendPost';
 import Card from './Card';
 import Posts from './posts/Posts';
 import LogIn from './user/LogIn';
-import Register from './user/Register';
+import localStorageService from '../helpers/localStorageService';
 
 function Main() {
-  const [isRegister, setIsRegister] = useState(false)
 
   return (
     <div>
@@ -17,10 +16,10 @@ function Main() {
       <div className="container-fluid gedf-wrapper">
         <div className="row">
         <div className="col-md-3">
-            {sessionStorage.getItem('isLoggedin')?<UserBar/>:<LogIn/>}
+            {localStorageService.getAccessToken()?<UserBar/>:<LogIn/>} {/*Use Context for logged user*/}
         </div>
         <div className="col-md-6 gedf-main">
-          {sessionStorage.getItem('isLoggedin')&&<CenterBar/>}
+          {localStorageService.getAccessToken()&&<SendPost/>}
           <Posts/>
         </div>
         <div className="col-md-3">

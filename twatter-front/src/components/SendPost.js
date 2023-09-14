@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { postTwatt } from "../library/apiHandler";
+import { postTwatt } from "../helpers/apiHandler";
+//TODO Change name to message field
 
-
-function CenterBar(props) {
+function SendPost(props) {
   const [postText, setPostText] = useState('')
+  const [range, setRange] = useState('');
 
   const handleTextChange = (event) => {
     setPostText(event.target.value);
@@ -20,7 +21,6 @@ function CenterBar(props) {
 
   return (
     <div>
-      {/* Post */}
       <div className="card gedf-card">
         <div className="card-body">
           <div className="tab-content" id="myTabContent">
@@ -49,18 +49,18 @@ function CenterBar(props) {
                 <i className="fa fa-globe"></i>
               </button>
               <div className="dropdown-menu dropdown-menu-right" aria-labelledby="btnGroupDrop1">
-                <a className="dropdown-item" href="#"><i className="fa fa-globe"></i> Public</a>
-                <a className="dropdown-item" href="#"><i className="fa fa-users"></i> Friends</a>
-                <a className="dropdown-item" href="#"><i className="fa fa-user"></i> Just me</a>
+                <a className="dropdown-item" href={'*'}><i className="fa fa-globe"></i> Public</a>
+                <a className="dropdown-item" href={'*'}><i className="fa fa-users"></i> Friends</a>
+                <a className="dropdown-item" href={'*'}><i className="fa fa-user"></i> Just me</a>
               </div>
             </div>
           </div>
         </div>
       </div>
-      {/* Post */}
+
 
     </div>
   )
 }
 
-export default CenterBar;
+export default SendPost;

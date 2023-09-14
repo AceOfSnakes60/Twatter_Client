@@ -1,9 +1,9 @@
-import { getReplies, getUserById, getPostById } from '../../library/apiHandler'
+import { getReplies, getUserById, getPostById } from '../../helpers/apiHandler'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import "./SinglePost.css";
 import Twatt from '../Twatt';
-import CenterBar from '../CenterBar';
+import CenterBar from '../SendPost';
 
 
 const SinglePost = (props) => {

@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 function Navbar(){
     const handleLogout = () =>{
-        sessionStorage.setItem('isLoggedin', false);
+        sessionStorage.removeItem("isLoggedIn");
         window.location.reload();
     }
 

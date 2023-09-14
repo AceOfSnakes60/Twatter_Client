@@ -1,11 +1,9 @@
-import { getAllPosts } from '../../library/apiHandler'
+import { getAllPosts } from '../../helpers/apiHandler'
 import {useState, useEffect} from 'react'
 
 
 import SinglePost from './SinglePost';
-import SubmitPost from './SubmitPost';
 import LogIn from '../user/LogIn'
-import Replies from '../posts/Replies';
 
 import "./Posts.css"
 import Twatt from '../Twatt';

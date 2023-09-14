@@ -1,5 +1,5 @@
-import { registerUser } from "../../library/apiHandler";
-import React from 'react';
+import { register } from "../../helpers/apiHandler";
+import React, {useState} from 'react';
 import {
   MDBBtn,
   MDBContainer,
@@ -12,13 +12,34 @@ from 'mdb-react-ui-kit';
 import "./Register.css"
 
 const Register = (props)=>{
+
+  const [formData, setFormData] = useState({
+    username: '',
+    email: '',
+    password: ''
+  })
+
+    const handleSubmit = (event) =>{
+      event.preventDefault();
+      
+      register(formData);
+    }
+
+    const handleInputChange = (event) => {
+      const {name, value} = event.target;
+      setFormData({
+        ...formData,
+        [name]: value,
+      })
+    };
+
     const submitHandle = (event)=>{
-        const formData = new FormData(event);
+        const formDat = new FormData(event);
         event.preventdefault();
-        const reply = registerUser({
-            username: formData.get("username"),
-            email: formData.get("email"),
-            password: formData.get("password")
+        const reply = register({
+            username: formDat.get("username"),
+            email: formDat.get("email"),
+            password: formDat.get("password")
         }).then(e=>{
             props.setIsRegister(false);
             props.setIsPosts(true);
@@ -32,14 +53,14 @@ const Register = (props)=>{
               <MDBCard className='m-5' style={{maxWidth: '600px'}}>
                 <MDBCardBody className='px-5'>
                   <h2 className="text-uppercase text-center mb-5">Create an account</h2>
-                  <MDBInput wrapperClass='mb-4' label='Your Name' size='lg' id='form1' type='text'/>
-                  <MDBInput wrapperClass='mb-4' label='Your Email' size='lg' id='form2' type='email'/>
-                  <MDBInput wrapperClass='mb-4' label='Password' size='lg' id='form3' type='password'/>
-                  <MDBInput wrapperClass='mb-4' label='Repeat your password' size='lg' id='form4' type='password'/>
+                  <MDBInput wrapperClass='mb-4' label='Your Name' size='lg' id='username' type='text' onChange={handleInputChange}/>
+                  <MDBInput wrapperClass='mb-4' label='Your Email' size='lg' id='email' type='email' onChange={handleInputChange}/>
+                  <MDBInput wrapperClass='mb-4' label='Password' size='lg' id='password' type='password' onChange={handleInputChange}/>
+                  <MDBInput wrapperClass='mb-4' label='Repeat your password' size='lg' id='password-repeat' type='password'/>
                   <div className='d-flex flex-row justify-content-center mb-4'>
                     <MDBCheckbox name='flexCheck' id='flexCheckDefault' label='I agree all statements in Terms of service' />
                   </div>
-                  <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' onClick={event=>submitHandle(event)}>Register</MDBBtn>
+                  <MDBBtn className='mb-4 w-100 gradient-custom-4' size='lg' onClick={event=>handleSubmit(event)}>Register</MDBBtn>
                 </MDBCardBody>
               </MDBCard>
             </MDBContainer>

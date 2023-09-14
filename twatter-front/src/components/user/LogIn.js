@@ -1,4 +1,4 @@
-import { validateUser } from "../../library/apiHandler";
+import { authenticate } from "../../helpers/apiHandler";
 import { Link } from "react-router-dom";
 
 const LogIn = (props)=>{
@@ -11,7 +11,7 @@ const LogIn = (props)=>{
             email: formData.get("email"),
             password: formData.get("password")
         }
-        validateUser(user).then(e=>{
+        authenticate(user).then(e=>{
             if(e.isEmailValid&&e.isPasswordValid){
                 console.log("Login success");
                 sessionStorage.setItem('isLoggedin', true);
