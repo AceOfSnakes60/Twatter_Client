@@ -1,7 +1,13 @@
 import { authenticate } from "../../helpers/apiHandler";
 import { Link } from "react-router-dom";
+import localStorageService from "../../helpers/localStorageService";
+import { useEffect, useState } from "react";
 
 const LogIn = (props)=>{
+    const [loginData, setLoginData] = useState({
+        email: '',
+        password: ''
+      })
 
 
     const handleSubmit = (event)=>{
@@ -11,22 +17,30 @@ const LogIn = (props)=>{
             email: formData.get("email"),
             password: formData.get("password")
         }
-        authenticate(user).then(e=>{
-            if(e.isEmailValid&&e.isPasswordValid){
-                console.log("Login success");
-                sessionStorage.setItem('isLoggedin', true);
-                window.location.reload();
-            }
-        }).catch(error=>console.error(error));
+        console.log()
+        authenticate(formData.get("email"), formData.get("password"));
+
+        if(localStorageService.getAccessToken()){
+            console.log("Login success");
+            window.location.reload();
+        }
+        
+    }
+    const handleChange = (event)=>{
+            const {name, value} = event.target;
+            setLoginData({
+              ...loginData,
+              [name]: value,
+            })
     }
 
 
     return(
         <div className="LoginForm">
             <form onSubmit={handleSubmit}>
-                <label>Email:<input type="text" name="email"/></label>
-                <label>Password:<input type="text" name="password"/></label>
-                <button type="submit" name="login">submit</button>
+                <label>Email:<input type="text" name="email" onChange={handleChange}/></label>
+                <label>Password:<input type="text" name="password" onChange={handleChange}/></label>
+                <button type="submit" name="login">Submit</button>
             </form>
             <Link to="/register">
             <button type="button" >Register</button>

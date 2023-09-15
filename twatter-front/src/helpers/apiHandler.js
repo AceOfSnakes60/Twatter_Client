@@ -7,16 +7,14 @@ const SERVER_PATH = 'http://localHost:8080'
 // Replace with Axiom
 // Create env file
 
-async function authenticate(username, email, password){
+async function authenticate(email, password){
     try{
-        const response = await axiosInstance.post(`${SERVER_PATH}/api/v1/auth/authenticate`,
-        {
-            "username": username,
-            "email": email,
-            "password": password
-        })
-        if(response.data){
-            localStorageService.setAccessToken(response.body.token);
+        const response = await axiosInstance.post(`${SERVER_PATH}/api/v1/auth/authenticate`, 
+        {"email": email,
+        "password": password})
+        if(response.data.token){
+            localStorageService.setAccessToken(response.data.token);
+            console.log(response.data.token);
         }
     }catch(error){
         console.error(error)
@@ -26,9 +24,12 @@ async function authenticate(username, email, password){
 
 async function register(userDetails){
     try{
+        console.log(userDetails);
         const response = await axiosInstance.post(`${SERVER_PATH}/api/v1/auth/register`, userDetails)
-        if(response.data){
-            localStorageService.setAccessToken(response.data);
+        console.log(response)
+        if(response.data.token){
+            localStorageService.setAccessToken(response.data.token);
+            console.log(response.data.token)
         }
         return response;
     } catch(error){
@@ -36,10 +37,23 @@ async function register(userDetails){
     }
 }
 
+async function getMyself(){
+    try{
+        const response = await axiosInstance.get(`${SERVER_PATH}/user/me`)
+        console.log(response);
+        return response;
+    }catch(error){
+        console.error(error);
+    }
+    
+}
+
 async function getAllPosts() {
     try{
         const response = await axiosInstance.get(`${SERVER_PATH}/twatts`)
-        return response.data;
+        if(response.data){
+            return response.data;
+        }
     }
     catch(error){
             console.error(error);

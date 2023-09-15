@@ -1,5 +1,6 @@
 import { register } from "../../helpers/apiHandler";
 import React, {useState} from 'react';
+import { useNavigate } from 'react-router-dom';
 import {
   MDBBtn,
   MDBContainer,
@@ -10,8 +11,11 @@ import {
 }
 from 'mdb-react-ui-kit';
 import "./Register.css"
+import localStorageService from "../../helpers/localStorageService";
 
 const Register = (props)=>{
+  const [errorMSG, setErrorMSG] = useState()
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     username: '',
@@ -21,38 +25,35 @@ const Register = (props)=>{
 
     const handleSubmit = (event) =>{
       event.preventDefault();
+      console.log(formData);
       
-      register(formData);
+      const response = register(formData).then(e=>{
+        if(e.data.error){
+          setErrorMSG(e.data.error);
+        }      
+      });
+      if(localStorageService.getAccessToken){
+        navigate('/');
+      }
     }
 
+      //TODO Error response doesnt work
     const handleInputChange = (event) => {
       const {name, value} = event.target;
+      console.log('Before setFormData:', formData);
       setFormData({
         ...formData,
-        [name]: value,
+        [event.target.id]: value,
       })
     };
-
-    const submitHandle = (event)=>{
-        const formDat = new FormData(event);
-        event.preventdefault();
-        const reply = register({
-            username: formDat.get("username"),
-            email: formDat.get("email"),
-            password: formDat.get("password")
-        }).then(e=>{
-            props.setIsRegister(false);
-            props.setIsPosts(true);
-        })
         
-
-    }
         return (
             <MDBContainer fluid className='d-flex align-items-center justify-content-center bg-image' style={{backgroundImage: 'url(https://mdbcdn.b-cdn.net/img/Photos/new-templates/search-box/img4.webp)'}}>
               <div className='mask gradient-custom-3'></div>
               <MDBCard className='m-5' style={{maxWidth: '600px'}}>
                 <MDBCardBody className='px-5'>
                   <h2 className="text-uppercase text-center mb-5">Create an account</h2>
+                  {errorMSG&&<MDBCard><div style={{ color: 'red' }}>{errorMSG}</div></MDBCard>}
                   <MDBInput wrapperClass='mb-4' label='Your Name' size='lg' id='username' type='text' onChange={handleInputChange}/>
                   <MDBInput wrapperClass='mb-4' label='Your Email' size='lg' id='email' type='email' onChange={handleInputChange}/>
                   <MDBInput wrapperClass='mb-4' label='Password' size='lg' id='password' type='password' onChange={handleInputChange}/>

@@ -1,4 +1,10 @@
+import localStorageService from "../helpers/localStorageService";
+
 function UserBar(){
+  const handleLogout = ()=>{
+    localStorageService.clear();
+    window.location.reload();
+  }
 return(        
 
 <div className="card">
@@ -18,6 +24,7 @@ return(
     </li>
     <li className="list-group-item">Vestibulum at eros</li>
   </ul>
+  <button onClick={handleLogout}>Log out</button>
 </div>
 )
 }

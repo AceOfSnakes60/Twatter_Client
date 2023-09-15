@@ -21,7 +21,7 @@ class localStorageService {
     }
 
     static getService(){
-
+      return this;
     }
     static getAccessToken(){
         return localStorage.getItem('AccessToken');
