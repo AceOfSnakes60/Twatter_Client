@@ -17,13 +17,13 @@ const LogIn = (props)=>{
             email: formData.get("email"),
             password: formData.get("password")
         }
-        console.log()
-        authenticate(formData.get("email"), formData.get("password"));
 
-        if(localStorageService.getAccessToken()){
-            console.log("Login success");
-            window.location.reload();
-        }
+        authenticate(formData.get("email"), formData.get("password")).then(()=>{
+            if(localStorageService.getAccessToken()){
+                console.log("Login success");
+                window.location.reload();
+            }
+        })
         
     }
     const handleChange = (event)=>{

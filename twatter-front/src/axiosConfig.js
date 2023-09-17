@@ -1,29 +1,31 @@
 import axios from 'axios';
 
-import LocalStorageService from './helpers/localStorageService'
+import localStorageService from './helpers/localStorageService'
 //import router from './router/router'
 
 const axiosInstance = axios.create();
 const SERVER_PATH = 'http://localHost:8080'
 
 //LocalStorageService
-const localStorageService = LocalStorageService.getService();
+//const localStorageService = LocalStorageService.getService();
 
 // Add a request interceptor
-axios.interceptors.request.use(
-    config => {
+axiosInstance.interceptors.request.use(
+    (config) => {
         const token = localStorageService.getAccessToken();
+        console.log('token');
         if(token){
             config.headers['Authorization'] = 'Bearer ' + token;
         }
+
         // config.headers['Content-Type] = 'application/json';
         return config;
     },
     error => {
-        Promise.reject(error);
+        return Promise.reject(error);
     }
 )
-axios.interceptors.response.use(
+axiosInstance.interceptors.response.use(
     response=>{
         return response;
     },
@@ -45,6 +47,7 @@ axios.interceptors.response.use(
                 refresh_token: refreshToken
             }).then(res => {
                 if(res.status === 201){
+                    console.log("line 50")
                     localStorageService.setToken(res.data)
                     axios.defaults.headers.common['Authorization'] =
                     'Bearer ' + localStorageService.getAccessToken()
@@ -56,4 +59,4 @@ axios.interceptors.response.use(
     }
 )
 
-export default axiosInstance;
+export {axiosInstance};

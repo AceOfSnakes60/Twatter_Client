@@ -31,7 +31,7 @@ const Register = (props)=>{
         if(e.data.error){
           setErrorMSG(e.data.error);
         }      
-      });
+      }).catch(error=>{console.error(error)});
       if(localStorageService.getAccessToken){
         navigate('/');
       }

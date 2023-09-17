@@ -1,4 +1,4 @@
-import axiosInstance from '../axiosConfig'
+import {axiosInstance} from '../axiosConfig'
 import localStorageService from './localStorageService'
 const SERVER_PATH = 'http://localHost:8080'
 
@@ -38,13 +38,15 @@ async function register(userDetails){
 }
 
 async function getMyself(){
-    try{
-        const response = await axiosInstance.get(`${SERVER_PATH}/user/me`)
+        axiosInstance.get(`${SERVER_PATH}/user/me`).then(response=>{
+
+        console.log("ME")
         console.log(response);
         return response;
-    }catch(error){
+        }).catch((error)=>{
         console.error(error);
-    }
+        })
+    
     
 }
 
@@ -119,4 +121,4 @@ async function getPostById(id){
     return posts;
 }
 
-export {authenticate, register, getAllPosts, postTwatt, validateUser, registerUser, getUserById, getReplies, getPostById};
+export {getMyself, authenticate, register, getAllPosts, postTwatt, validateUser, registerUser, getUserById, getReplies, getPostById};
