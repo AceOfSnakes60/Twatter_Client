@@ -7,7 +7,7 @@ function UserBar(){
 
   useEffect(()=>{
     getMyself().then((response)=>{
-      console.log(response);
+
       if(response){
         setUser(response.data);
       }

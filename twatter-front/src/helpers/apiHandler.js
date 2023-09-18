@@ -51,15 +51,13 @@ async function getMyself(){
 }
 
 async function getAllPosts() {
-    try{
-        const response = await axiosInstance.get(`${SERVER_PATH}/twatts`)
+    console.log('getAllPosts');
+    axiosInstance.get(`${SERVER_PATH}/twatts`).then(response=>{
         if(response.data){
+            console.log(response);
             return response.data;
-        }
-    }
-    catch(error){
-            console.error(error);
-    }
+        }        
+    }).catch(error=>{ console.error(error);})
     
 }
 
