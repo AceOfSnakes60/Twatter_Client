@@ -1,1 +1,1 @@
-Clint for Twatter Project
+Client for Twatter Project
