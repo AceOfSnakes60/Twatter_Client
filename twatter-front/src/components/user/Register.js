@@ -37,7 +37,6 @@ const Register = (props)=>{
       }
     }
 
-      //TODO Error response doesnt work
     const handleInputChange = (event) => {
       const {name, value} = event.target;
       console.log('Before setFormData:', formData);
