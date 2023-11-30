@@ -1,21 +1,22 @@
 import { useState } from "react";
 import { postTwatt } from "../helpers/apiHandler";
-//TODO Change name to message field
 
-function SendPost(props) {
+function MessageField(props) {
   const [postText, setPostText] = useState('')
-  const [range, setRange] = useState('');
 
   const handleTextChange = (event) => {
     setPostText(event.target.value);
   }
   const handleShareButtonClick = () => {
+    if(props.isGroup){
+      //Different endpoint for group twatt
+    }
     const data = {
       body: postText,
       parentId: props.parentId? props.parentId : null
     }
     console.log(data.text);
-    postTwatt(data).catch(err => console.error(err));
+    postTwatt(data).then(res=>{console.log(res)}).catch(err => console.error(err));
     window.location.reload();
   }
 
@@ -63,4 +64,4 @@ function SendPost(props) {
   )
 }
 
-export default SendPost;
+export default MessageField;

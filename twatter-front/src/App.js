@@ -11,13 +11,14 @@ import './App.css';
 import Main from './components/Main';
 import Posts from "./components/posts/Posts.js";
 import Register from "./components/user/Register";
-import SinglePost from './components/posts/SinglePost';
+import SinglePostMain from './components/posts/SinglePostMain';
+import CreateGroup from './components/groups/CreateGroup';
+import GroupMain from './components/groups/GroupMain';
+import UserMain from './components/user/UserMain';
+
 
 
 function App() {
-
-  const [isPosts, setIsPosts] = useState(true);
-  const [isRegister, setIsRegister] = useState(false);
 
   return (
     <div className="App">
@@ -26,7 +27,10 @@ function App() {
       <Routes>
           <Route exact path="/" element={<Main/>} />
           <Route path="/register" element={<Register/>}/>
-          <Route path="/post/:id" element={<SinglePost/>}/>
+          <Route path="/post/:id" element={<SinglePostMain/>}/>
+          <Route path="/creategroup" element={<CreateGroup/>}/> 
+          <Route path="/group/:id" element={<GroupMain/>}/>
+          <Route path="/user/:username" element={<UserMain/>}/>
           </Routes>
       </BrowserRouter>
     </div>

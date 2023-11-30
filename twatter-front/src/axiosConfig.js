@@ -1,10 +1,12 @@
 import axios from 'axios';
 
+
 import localStorageService from './helpers/localStorageService'
 //import router from './router/router'
 
 const axiosInstance = axios.create();
 const SERVER_PATH = 'http://localHost:8080'
+let hasRefreshedToken = false;
 
 //LocalStorageService
 //const localStorageService = LocalStorageService.getService();
@@ -14,7 +16,7 @@ axiosInstance.interceptors.request.use(
     (config) => {
         const token = localStorageService.getAccessToken();
         console.log('token');
-        if(token){
+        if (token) {
             config.headers['Authorization'] = 'Bearer ' + token;
         }
 
@@ -26,37 +28,61 @@ axiosInstance.interceptors.request.use(
     }
 )
 axiosInstance.interceptors.response.use(
-    response=>{
+    response => {
         return response;
     },
-    function(error) {
+    function (error) {
+        console.log("error 34:")
         const originalRequest = error.config;
 
-        if(
+        if (
             error.response.status === 401 &&
-            originalRequest.url === `${SERVER_PATH}/v1/auth/token`
+            originalRequest.url === `${SERVER_PATH}/api/v1/auth/token`
         ) {
             window.location.href = '/'
             return Promise.reject(error);
         }
 
-        if(error.response.status === 401 && !originalRequest._retry) {
+        if (error.response.status === 401 && !originalRequest._retry &&!hasRefreshedToken) {
             originalRequest._retry = true;
             const refreshToken = localStorageService.getRefreshToken();
-            return axios.post('auth/token', {
-                refresh_token: refreshToken
-            }).then(res => {
-                if(res.status === 201){
+            if(!refreshToken){
+                return Promise.reject(error);
+            }
+            try {
+
+                const refreshRes = axios.post(`${SERVER_PATH}/api/v1/auth/token`, {
+                    refreshToken: localStorageService.getRefreshToken()
+                })
+                hasRefreshedToken = true;
+                
+                if (refreshRes.status === 201) {
                     console.log("line 50")
-                    localStorageService.setToken(res.data)
+                    localStorageService.setToken(refreshRes.data.refreshToken)
                     axios.defaults.headers.common['Authorization'] =
-                    'Bearer ' + localStorageService.getAccessToken()
+                        'Bearer ' + localStorageService.getAccessToken()
+                    hasRefreshedToken = false;
                     return axios(originalRequest);
                 }
-            })
+                console.log("Refresh failed")
+                if(localStorageService.getAccessToken()&&localStorageService.getRefreshToken()){
+                    localStorageService.removeItem("AccessToken");
+                    localStorageService.removeItem("RefreshToken");
+                    window.location.reload();
+                }
+
+            }
+            catch (error) {
+                hasRefreshedToken =false;
+                console.log("refresh failed: " + error)
+            }
+
+
+
+
         }
         return Promise.reject(error);
     }
 )
 
-export {axiosInstance};
+export { axiosInstance };

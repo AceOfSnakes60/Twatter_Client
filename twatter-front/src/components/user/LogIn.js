@@ -2,6 +2,7 @@ import { authenticate } from "../../helpers/apiHandler";
 import { Link } from "react-router-dom";
 import localStorageService from "../../helpers/localStorageService";
 import { useEffect, useState } from "react";
+import { MDBBtn, MDBInput } from 'mdb-react-ui-kit';
 
 const LogIn = (props)=>{
     const [loginData, setLoginData] = useState({
@@ -18,7 +19,9 @@ const LogIn = (props)=>{
             password: formData.get("password")
         }
 
-        authenticate(formData.get("email"), formData.get("password")).then(()=>{
+        authenticate(formData.get("email"), formData.get("password")).then((res)=>{
+            console.log("After Authentication")
+            console.log(res)
             if(localStorageService.getAccessToken()){
                 console.log("Login success");
                 window.location.reload();
@@ -38,13 +41,15 @@ const LogIn = (props)=>{
     return(
         <div className="LoginForm">
             <form onSubmit={handleSubmit}>
-                <label>Email:<input type="text" name="email" onChange={handleChange}/></label>
-                <label>Password:<input type="text" name="password" onChange={handleChange}/></label>
-                <button type="submit" name="login">Submit</button>
+            <div class="col d-flex justify-content-center ">
+                <MDBInput value={loginData.email} id="emailForm" type="text" placeholder="Email/Username" name="email" class="form-control" onChange={handleChange}/>
+                <MDBInput value={loginData.password} id="passwordForm" type="password" placeholder="Password" name="password" class="form-control" onChange={handleChange}/>
+                <MDBBtn color='light' rippleColor='dark' type="submit" name="login">Submit</MDBBtn>
+            </div>
             </form>
-            <Link to="/register">
-            <button type="button" >Register</button>
-            </Link>
+            <div class="text-center">
+                <p>Not a member? <a href="/register">Register</a></p>
+            </div>
             
         </div>
     )

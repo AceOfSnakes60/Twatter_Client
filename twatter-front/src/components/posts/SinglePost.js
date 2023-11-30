@@ -1,33 +1,36 @@
-import { getReplies, getUserById, getPostById } from '../../helpers/apiHandler'
+import { getReplies, getUserById, getPostById, getPosts } from '../../helpers/apiHandler'
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom';
 import "./SinglePost.css";
 import Twatt from '../Twatt';
-import CenterBar from '../SendPost';
-
+import CenterBar from '../MessageField';
+import MessageField from '../MessageField';
+import localStorageService from '../../helpers/localStorageService';
 
 const SinglePost = (props) => {
-    const { id } = useParams();
+    const id  = props.twattId;
     const [parentTwatt, setParentTwatt] = useState();
     const [replies, setReplies] = useState();
+    const [page, getPage] = useState(0)
 
     useEffect(() => {
-        getPostById(id).then(twatt => { setParentTwatt(twatt); console.log(twatt); }).catch(err => console.error(err));
-        getReplies(id).then(twatts => { setReplies(twatts) }).catch(err => console.error(err));
+        getPosts(`/${id}`).then(twatt => { setParentTwatt(twatt.data); console.log(twatt); }).catch(err => console.error(err));
+        getPosts(`/replies/${id}`, 0).then(twatts => {
+            setReplies(twatts.data);
+             console.log(twatts) })
+            .catch(err => console.error(err));
 
     }, [])
 
     return (
         <div className="SinglePost">
-            <div className="col-md-6 gedf-main">
-                {parentTwatt && <Twatt date={parentTwatt.date} text={parentTwatt.text} />}
-                <CenterBar parentId={id} />
+                {parentTwatt && <Twatt id={parentTwatt.id} date={parentTwatt.date} user={parentTwatt.user} text={parentTwatt.text} />}
+                {localStorageService.getAccessToken()&&parentTwatt&&<MessageField parentId={parentTwatt.id}/>}
                 <div className='Replies'>
                     {replies && replies.map(element => {
-                        return (<div><Twatt id={element.id} date={element.date} text={element.text} /></div>)
+                        return (<div><Twatt id={element.id} user={element.user} date={element.date} text={element.text} /></div>)
                     })}
                 </div>
-            </div>
 
         </div>
     )

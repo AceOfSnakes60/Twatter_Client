@@ -1,0 +1,28 @@
+Front:
+1. Group page
+1.2. Group setings
+2. User config page
+3. Add to friends 
+4. Notifications
+5. Fix refresh token (it could be a frontend issue. Doesnt send the token to server)
+6. Events
+7. Users page
+8. visible comments in main page
+9. Replace get all posts with specific function - DONE (not tested)
+10. Settings Page
+11. Change parent id to encompass groups as well as posts
+
+Back:
+1. Get group details 
+2. Get group twatts
+3. Edit group settings
+4. Edit user settings
+5. Delete all
+6. Return replies with twatt
+    Single twatt DTO contains up to 5 recent comments
+    TwattResponse contains a page of Single twatts
+    Must find a way to put 5 comments into DTO by parent id and exclude these comments from main page
+    If  comment contains parent id show simplified information about the parent
+    Parent can be either twatt or grop
+    Group contains g and group id 
+    Comment on group contains g and group id and t with twatt id 

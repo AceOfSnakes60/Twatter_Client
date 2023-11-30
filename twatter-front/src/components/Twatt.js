@@ -14,7 +14,7 @@ function Twatt({id, user, date, text, parentId}) {
               <img className="rounded-circle" width="45" src="https://picsum.photos/50/50" alt="" />
             </div>
             <div className="ml-2">
-              <div className="h5 m-0">Tester</div>
+              <div className="h5 m-0">{user&&user.username}</div>
               <div className="h7 text-muted">Tester</div>
             </div>
           </div>
